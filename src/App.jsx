@@ -15,6 +15,7 @@ import { CardTarea } from "./components/CardTarea/CardTarea"
 import { Footera } from "./components/Footer/Footera"
 import { useEffect, useReducer, useState } from "react"
 import { tareaReducer } from "./reducers/tareaReducer"
+import Swal from "sweetalert2"
 // FORMA 3 rafc
 // import React from 'react'
 export const App = () => {
@@ -49,19 +50,27 @@ const handleInputChange = (evento) => {
 }
 const handleSubmit = (evento) =>{
  evento.preventDefault();
- const TareaNueva ={
-  id: new Date().getTime(),
-  descripcion:descripcion,
-  realizado: false
- }
- const action={
-  type: "agregar",
-  payload:TareaNueva
- }
- dispatch(action)
-//  console.log(evento)
-setDescripcion("")
-}
+ if (descripcion == "") {
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: 'Falta llenar la descripcion',
+  })
+ }else{
+    const TareaNueva ={
+      id: new Date().getTime(),
+      descripcion:descripcion,
+      realizado: false
+    }
+    const action={
+      type: "agregar",
+      payload:TareaNueva
+    }
+    dispatch(action)
+    //  console.log(evento)
+    setDescripcion("")
+    }
+  }
  const handleCambiar = (id )=>{
   dispatch ({
     type:"cambiar",
@@ -70,9 +79,27 @@ setDescripcion("")
   console.log(state)
  }
  const handleEliminar =(id)=>{
-  dispatch({
-    type:"borrar",
-    payload:id
+  Swal.fire({
+    title: 'Seguro que quieres eliminar?',
+    text: "No podras volver a recuperar!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si, eliminar!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      dispatch({
+        type:"borrar",
+        payload:id
+      })
+      Swal.fire({
+        icon: 'success',
+        title: 'Your work has been saved',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    }
   })
  }
  let terminadas =0

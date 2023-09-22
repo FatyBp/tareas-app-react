@@ -13,7 +13,7 @@ return (
                             <form onSubmit={(e) =>handleSubmit(e)}>
                             <div className="mb-2">
                                 <label htmlFor="tareaInput" className="form-label">Descripcion</label>
-                                <input onChange={(e)=> handleInputChange(e)} value={descripcion} type="text" className="form-control" required></input>
+                                <input onChange={(e)=> handleInputChange(e)} value={descripcion} type="text" className="form-control"></input>
                                 <div id="descripcionText" className="form-text">Agregar desccripcion de la tarea</div>
                                 <div></div>
                                     <br></br>
